@@ -1,6 +1,6 @@
 package daos;
 
-import Padaria.entity.Cliente;
+import entity.Cliente;
 import connection.Conexao;
 import interfaces.ICrud;
 import java.sql.Connection;
@@ -49,11 +49,36 @@ public class ClienteDao implements ICrud<Cliente> {
     }
         return obj;
         }
-
     @Override
-    public Cliente update(Cliente obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public Cliente update(Cliente cliente) {
+       Connection con = null;
+       PreparedStatement smt = null;
+       
+       String sql = "UPDATE clientes SET nome = ?, cpf = ?, telefone = ?, pontos = ? WHERE id_cliente = ?";
+
+    try {
+        con = Conexao.getConnection();
+        smt = con.prepareStatement(sql);
+
+        
+        smt.setString(1, cliente.getNome());
+        smt.setString(2, cliente.getCpf());
+        smt.setString(3, cliente.getTelefone());
+        smt.setDouble(4, cliente.getTotPontosAcumulados());
+        smt.setInt(5, cliente.getId()); 
+        
+        int linhasAfetadas = smt.executeUpdate();
+
+        
+
+    } catch (SQLException ex) {
+        throw new RuntimeException("Erro ao tentar atualizar o cliente: " + ex.getMessage());
+    } 
+    finally {
+       Conexao.fecharConexao();
+        }
+        return null;
+   } 
 
     @Override
     public List<Cliente> consultar() {
@@ -87,11 +112,48 @@ public class ClienteDao implements ICrud<Cliente> {
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+       Connection con = null;
+       
+       try{
+        con = Conexao.getConnection();
+        PreparedStatement smt = con.prepareStatement("delete from clientes where id_cliente = " + id);
+        
+        ResultSet rs = smt.executeQuery();
+        
+        rs.next();
+
+       }catch(SQLException ex){
+           throw new RuntimeException(ex.getMessage());
+       }
+       finally{
+           Conexao.fecharConexao();
+       }
+    } 
+    
 
     @Override
     public Cliente consultarPeloId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    } 
+       Connection con = null;
+       Cliente cliente = null;
+       try{
+        con = Conexao.getConnection();
+        PreparedStatement smt = con.prepareStatement("select * from clientes where id_cliente = " + id);
+        
+        ResultSet rs = smt.executeQuery();
+        
+        rs.next();
+        
+        Cliente prod = new Cliente(rs.getInt("id_cliente"),rs.getString("nome"),rs.getString("cpf"),rs.getString("telefone"),rs.getDouble("pontos"));
+          
+        cliente = prod;
+           System.out.println("ID: " +cliente.getId() + " Nome:" + cliente.getNome() + " CPF: "+ cliente.getCpf() + " Telefone: " + cliente.getTelefone() + " Pontos: " + cliente.getTotPontosAcumulados());
+        
+       }catch(SQLException ex){
+           throw new RuntimeException(ex.getMessage());
+       }
+       finally{
+           Conexao.fecharConexao();
+       }
+       return cliente;
+    }
 }

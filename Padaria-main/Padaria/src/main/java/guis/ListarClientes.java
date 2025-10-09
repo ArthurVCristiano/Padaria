@@ -1,6 +1,6 @@
 package guis;
 
-import Padaria.entity.Cliente;
+import entity.Cliente;
 import daos.ClienteDao;
 import java.sql.Connection;
 import java.sql.DriverManager;

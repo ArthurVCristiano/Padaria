@@ -23,4 +23,5 @@
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>com.mycompany.padaria.Padaria</exec.mainClass>
     </properties>
+    <name>Padaria-main</name>
 </project>

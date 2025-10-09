@@ -4,6 +4,11 @@
  */
 package guis;
 
+import daos.ProdutoDao;
+import entity.Produto;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *
  * @author arthu
@@ -191,7 +196,24 @@ public class CadastrarProduto extends javax.swing.JFrame {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         this.setVisible(false);
-
+        
+        Produto produto = new Produto();
+        ProdutoDao dao = new ProdutoDao();
+        
+        String nome = tfNome.getText();
+        Double preco = Double.parseDouble(tfPreco.getText());
+        Integer quantidade = Integer.parseInt(tfQtd.getText());
+        String tipo = (String) cbTipoProduto.getSelectedItem();
+        
+        if(!nome.isEmpty() && preco > 0 && quantidade > 0 && !tipo.isEmpty()){
+            produto.setNome(nome);
+            produto.setPreco(preco);
+            produto.setQuantidadeEstoque(quantidade);
+            produto.setTipo(tipo);
+            
+            dao.salvar(produto);
+        }
+        
         Msg_ClienteCadastrado msgCriado = new Msg_ClienteCadastrado();
         msgCriado.setVisible(true);
     }//GEN-LAST:event_btCadastrarActionPerformed
