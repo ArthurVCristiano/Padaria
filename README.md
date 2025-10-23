@@ -1,4 +1,4 @@
-Este repositório foi criado para documentar e armazenar os arquivos do trabalho prático da matéria de Programção Orientada a Objetos II  Do curso de Engenharia de Software da UDESC CEAVI.
+Este repositório foi criado por Andrei Effting e Arthur Velho Cristiano, com intuito de documentar e armazenar os arquivos do trabalho prático da matéria de Programção Orientada a Objetos II  Do curso de Engenharia de Software da UDESC CEAVI.
 Alguns passos necessários para funcionamento da aplicação.
 1) Ter baixado e configurado postgreSQL e uma gui para administração de banco de dados, recomendado pgAdmin.
 2) IDE e java instalado para executar projeto.
@@ -12,6 +12,7 @@ cpf VARCHAR(11),
 telefone(11),
 pontos NUMERIC(10,2)
 )
+
 CREATE TABLE produtos(
 id_produto SERIAL PRIMARY KEY,
 nome Varchar(30),
@@ -19,6 +20,7 @@ preco NUMERIC(10,2),
 tipo VARCHAR(11),
 Quantidade Integer
 )
+
 CREATE TABLE vendas(
 id_venda SERIAL PRIMARY KEY,
 cpf_cliente VARCHAR(11),
